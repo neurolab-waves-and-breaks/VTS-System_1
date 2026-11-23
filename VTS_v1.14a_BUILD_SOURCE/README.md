@@ -49,17 +49,6 @@ If you rename the project folder, the sysbuild application directory can change.
 The generated `zephyr.uf2` is the receiver firmware file to share or load onto
 the VTS XIAO using the team's existing UF2 bootloader procedure.
 
-## Included files
-
-| Path | Purpose |
-| --- | --- |
-| `src/` | All 34 firmware source and header files |
-| `CMakeLists.txt` | Application build definition |
-| `Kconfig` | Application configuration options |
-| `prj.conf` | Base receiver, storage, USB and UF2 configuration |
-| `app.overlay` | Receiver hardware and USB devicetree configuration |
-| `ble_telemetry.conf` | BLE-enabled configuration used by the build command |
-| `README.md` | These build instructions |
 
 ## Hardware and application compatibility
 
