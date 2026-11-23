@@ -1,0 +1,28 @@
+mainmenu "VTS v1.13a Persistent Permanent experimental receiver"
+source "Kconfig.zephyr"
+config VTS_IMPEDANCE
+    bool "Read-only CLIC EEG impedance telemetry"
+    default y
+    help
+      Read status opcode 12 and scale opcode 18 sensor 6 via the existing
+      command owner. No change to stimulation settings or phase timer policy.
+
+config VTS_BLE_TELEMETRY
+    bool "Experimental read-only BLE advertising telemetry"
+    depends on BT && ESB && ESB_MPSL_TIMESLOT
+    default n
+    help
+      Opt in with ble_telemetry.conf. Phase/impedance engine stays the same.
+      ESB reception is deliberately unavailable during short advertising windows.
+
+config VTS_BLE_INTERVAL_MS
+    int "Minimum interval between advertising-window attempts (ms)"
+    depends on VTS_BLE_TELEMETRY
+    range 1000 60000
+    default 5000
+
+config VTS_BLE_WINDOW_MS
+    int "Requested advertising window duration (ms)"
+    depends on VTS_BLE_TELEMETRY
+    range 30 200
+    default 200
