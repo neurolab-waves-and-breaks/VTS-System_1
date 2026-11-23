@@ -1,0 +1,44 @@
+#include <zephyr/dt-bindings/gpio/gpio.h>
+
+&i2c1 {
+    status = "okay";
+    clock-frequency = <400000>;
+};
+
+&i2c0 {
+    status = "disabled";
+};
+
+&usbd {
+    status = "okay";
+};
+/* Physical pushbutton wired between XIAO D9 (nRF52840 P1.14) and 3.3 V.
+ * Released=low, pressed=high. Internal pull-down provides released state.
+ */
+/ {
+    vts_buttons: vts_buttons {
+        compatible = "gpio-keys";
+        vts_button_d9: vts_button_d9 {
+            gpios = <&gpio1 14 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+            label = "VTS phase pushbutton (XIAO D9)";
+        };
+    };
+    aliases {
+        vts-phase-button = &vts_button_d9;
+    };
+};
+
+/* v1.4 diagnostic USB serial console: no change to receiver radio or GPIO.
+ * Same legacy CDC-ACM stack/devicetree pattern as tested XIAO mock TX.
+ */
+/ {
+    chosen {
+        zephyr,console = &cdc_acm_uart0;
+    };
+};
+&zephyr_udc0 {
+    cdc_acm_uart0: cdc_acm_uart0 {
+        compatible = "zephyr,cdc-acm-uart";
+        label = "VTS receiver diagnostic";
+    };
+};
